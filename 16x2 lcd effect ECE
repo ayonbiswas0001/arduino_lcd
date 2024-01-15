@@ -1,0 +1,29 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+char message[] = "Electronics and Communication Engineering ";
+int messageLength;
+int lcdWidth = 16;
+int scrollSpeed = 500; // Adjust as needed
+
+void setup() {
+  lcd.begin(16, 2);
+  lcd.clear();
+  messageLength = strlen(message);
+}
+
+void loop() {
+  for (int i = 0; i < messageLength + lcdWidth; ++i) {
+    lcd.clear();
+    int start = max(0, i - lcdWidth + 1);
+    int end = min(i, messageLength);
+    
+    for (int j = start; j < end; ++j) {
+      lcd.setCursor(j - start, 0);
+      lcd.write(message[j]);
+    }
+
+    delay(scrollSpeed);
+  }
+}
